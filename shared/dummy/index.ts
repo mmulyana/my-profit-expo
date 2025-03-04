@@ -1,0 +1,42 @@
+export const items = [
+	{
+		id: '1',
+		name: 'MacBook Pro 14"',
+		createdAt: '2024-02-20T10:00:00Z',
+		purchasePrice: 12000000,
+		sellingPrice: 14000000,
+		quantity: 2,
+	},
+	{
+		id: '2',
+		name: 'iPhone 15 Pro',
+		createdAt: '2024-02-18T15:30:00Z',
+		purchasePrice: 18000000,
+		sellingPrice: 20000000,
+		quantity: 5,
+	},
+	{
+		id: '3',
+		name: 'Sony WH-1000XM5',
+		createdAt: '2024-02-10T09:45:00Z',
+		purchasePrice: 5000000,
+		sellingPrice: 6500000,
+		quantity: 10,
+	},
+	{
+		id: '4',
+		name: 'Samsung Galaxy S24 Ultra',
+		createdAt: '2024-02-05T12:15:00Z',
+		purchasePrice: 19000000,
+		sellingPrice: 22000000,
+		quantity: 3,
+	},
+	{
+		id: '5',
+		name: 'Dell XPS 13',
+		createdAt: '2024-01-28T08:20:00Z',
+		purchasePrice: 15000000,
+		sellingPrice: 16500000,
+		quantity: 4,
+	},
+]
