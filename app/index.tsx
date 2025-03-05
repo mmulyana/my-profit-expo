@@ -6,19 +6,21 @@ import { Item } from '@/shared/types'
 
 import ItemCard from '@/features/home/component/item-card'
 import Header from '@/features/home/component/header'
-import { items } from '@/shared/dummy'
 import ButtonAdd from '@/features/home/component/button-add'
+import { useGetItems } from '@/features/home/api/use-get-items'
 
 export default function Index() {
 	const [search, setSearch] = useState('')
-	const [data, setData] = useState<Item[]>(items)
+
+	const { data } = useGetItems()
+	console.log('data', data?.data)
 
 	return (
 		<>
 			<View style={styles.container}>
 				<Header value={search} setValue={setSearch} />
 				<FlatList
-					data={data}
+					data={data?.data.data}
 					keyExtractor={(item) => item.id}
 					renderItem={({ item }) => <ItemCard {...item} />}
 					style={styles.wrapper}

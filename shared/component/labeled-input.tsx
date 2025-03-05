@@ -3,6 +3,9 @@ import { MaskedTextInput } from 'react-native-mask-text'
 import { Controller } from 'react-hook-form'
 import { Color } from '../constants/color'
 
+import { FakeCurrencyInput } from 'react-native-currency-input'
+import { useState } from 'react'
+
 export default function LabeledInput({
 	label,
 	control,
@@ -10,6 +13,8 @@ export default function LabeledInput({
 	keyboardType,
 	isMasked,
 }: any) {
+	const [isFocused, setIsFocused] = useState(false)
+
 	return (
 		<Controller
 			control={control}
@@ -21,18 +26,29 @@ export default function LabeledInput({
 				<View style={styles.inputContainer}>
 					<Text style={styles.label}>{label}</Text>
 					{isMasked ? (
-						<MaskedTextInput
-							style={styles.input}
-							onBlur={onBlur}
-							onChangeText={onChange}
-							value={String(value)}
-							keyboardType={keyboardType}
-							mask='Rp 999,999,999,999'
+						<FakeCurrencyInput
+							style={[styles.input, isFocused && styles.inputFocused]}
+							onBlur={() => {
+								onBlur()
+								setIsFocused(false)
+							}}
+							onFocus={() => setIsFocused(true)}
+							onChangeValue={(value) => onChange(value)}
+							value={value}
+							delimiter=','
+							separator='.'
+							precision={0}
+							minValue={0}
+							caretHidden
 						/>
 					) : (
 						<TextInput
-							style={styles.input}
-							onBlur={onBlur}
+							style={[styles.input, isFocused && styles.inputFocused]}
+							onBlur={() => {
+								onBlur()
+								setIsFocused(false)
+							}}
+							onFocus={() => setIsFocused(true)}
 							onChangeText={onChange}
 							value={value}
 							keyboardType={keyboardType}
@@ -55,7 +71,17 @@ const styles = StyleSheet.create({
 		padding: 10,
 		borderRadius: 5,
 		marginTop: 5,
+		width: '100%',
 		backgroundColor: '#FFF',
+	},
+	inputFocused: {
+		borderColor: Color.Primary,
+		borderWidth: 2, // Lebar border saat focus
+		shadowColor: 'rgba(255, 0, 0, 0.3)', // Shadow merah
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 1,
+		shadowRadius: 4,
+		elevation: 5, // Untuk Android
 	},
 	error: { color: 'red', marginTop: 5 },
 })

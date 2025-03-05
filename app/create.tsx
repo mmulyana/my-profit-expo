@@ -1,34 +1,30 @@
+import { Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { useForm } from 'react-hook-form'
+import { useRouter } from 'expo-router'
+
+import { useCreateItem } from '@/features/home/api/use-create-item'
+
+import ImageUploader from '@/shared/component/image-uploader'
 import DetailHeader from '@/shared/component/detail-header'
 import LabeledInput from '@/shared/component/labeled-input'
 import { Color } from '@/shared/constants/color'
+// import { zodResolver } from '@hookform/resolvers/zod'
+// import { z } from 'zod'
 
-import {
-	Button,
-	Pressable,
-	StatusBar,
-	StyleSheet,
-	Text,
-	View,
-} from 'react-native'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { useRouter } from 'expo-router'
-import ImageUploader from '@/shared/component/image-uploader'
-
-const formSchema = z.object({
-	name: z.string().min(1, 'Nama harus diisi'),
-	sellingPrice: z.string().min(1, 'Harga harus lebih dari 0'),
-	purchasePrice: z.string().min(1, 'Harga harus lebih dari 0'),
-	quantity: z.string().min(1, 'Jumlah harus lebih dari 0'),
-	image: z.string().optional(),
-})
+// const formSchema = z.object({
+// 	name: z.string().min(1, 'Nama harus diisi'),
+// 	sellingPrice: z.string().min(1, 'Harga harus lebih dari 0'),
+// 	purchasePrice: z.string().min(1, 'Harga harus lebih dari 0'),
+// 	quantity: z.string().min(1, 'Jumlah harus lebih dari 0'),
+// 	image: z.string().optional(),
+// })
 
 export default function CreateScreen() {
 	const router = useRouter()
 
+	const { mutate } = useCreateItem()
 	const { control, handleSubmit } = useForm({
-		resolver: zodResolver(formSchema),
+		// resolver: zodResolver(formSchema),
 		defaultValues: {
 			name: '',
 			purchasePrice: undefined,
@@ -37,7 +33,29 @@ export default function CreateScreen() {
 	})
 
 	const onSubmit = (data: any) => {
-		console.log(data)
+		const formData = new FormData()
+
+		formData.append('name', data.name)
+		formData.append('purchasePrice', data.purchasePrice)
+		formData.append('quantity', data.quantity)
+		formData.append('sellingPrice', data.sellingPrice)
+
+		if (data.image) {
+			const imageUri = data.image.uri || data.image
+			const fileType = imageUri.split('.').pop()
+
+			formData.append('photo', {
+				uri: imageUri,
+				name: `photo.${fileType}`,
+				type: `image/${fileType}`,
+			} as any)
+		}
+
+		mutate(formData, {
+			onSuccess: () => {
+				router.push('/')
+			},
+		})
 	}
 
 	const onCancel = () => router.push('/')
