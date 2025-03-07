@@ -13,7 +13,6 @@ export default function Index() {
 	const [search, setSearch] = useState('')
 
 	const { data } = useGetItems()
-	console.log('data', data?.data)
 
 	return (
 		<>

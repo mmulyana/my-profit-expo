@@ -8,12 +8,14 @@ import {
 import { Settings } from 'lucide-react-native'
 
 import { Color } from '@/shared/constants/color'
+import { useRouter } from 'expo-router'
 
 type Props = {
 	value: string
 	setValue: (val: string) => void
 }
 export default function Header({ value, setValue }: Props) {
+	const router = useRouter()
 	return (
 		<View style={styles.container}>
 			<View style={styles.wrapper}>
@@ -25,10 +27,11 @@ export default function Header({ value, setValue }: Props) {
 						style={styles.input}
 					/>
 				</View>
-				<Pressable>
-					<TouchableOpacity style={styles.button}>
-						<Settings size={20} color='white' />
-					</TouchableOpacity>
+				<Pressable
+					style={styles.button}
+					onPress={() => router.push('/setting')}
+				>
+					<Settings size={20} color='white' />
 				</Pressable>
 			</View>
 		</View>
@@ -63,7 +66,6 @@ const styles = StyleSheet.create({
 	button: {
 		backgroundColor: 'transparent',
 		padding: 8,
-		flex: 1,
 		height: 32,
 		width: 32,
 		alignItems: 'center',

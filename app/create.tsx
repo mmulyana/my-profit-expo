@@ -65,11 +65,7 @@ export default function CreateScreen() {
 			<View style={styles.container}>
 				<DetailHeader path='/' />
 				<View style={styles.wrapper}>
-					<View
-						style={{
-							gap: 8,
-						}}
-					>
+					<View style={{ gap: 8 }}>
 						<Text style={styles.title}>Tambah Data</Text>
 						<LabeledInput
 							label='Nama'

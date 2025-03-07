@@ -21,6 +21,14 @@ export default function RootLayout() {
 						headerShown: false,
 					}}
 				/>
+				<Stack.Screen
+					name='setting'
+					options={{
+						headerShown: false,
+						animationDuration: 20,
+						animation: 'ios_from_right',
+					}}
+				/>
 			</Stack>
 		</QueryClientProvider>
 	)
