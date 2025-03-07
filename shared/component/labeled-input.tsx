@@ -68,11 +68,12 @@ const styles = StyleSheet.create({
 	input: {
 		borderWidth: 1,
 		borderColor: Color.Border,
-		padding: 10,
+		paddingHorizontal: 10,
 		borderRadius: 5,
 		marginTop: 5,
 		width: '100%',
 		backgroundColor: '#FFF',
+		height: 40
 	},
 	inputFocused: {
 		borderColor: Color.Primary,
