@@ -1,13 +1,13 @@
-import { FlatList, StatusBar, StyleSheet, View } from 'react-native'
-import { useState } from 'react'
+import { Alert, FlatList, StatusBar, StyleSheet, View } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useEffect, useState } from 'react'
 
 import { Color } from '@/shared/constants/color'
-import { Item } from '@/shared/types'
 
+import { useGetItems } from '@/features/home/hook/use-get-items'
+import ButtonAdd from '@/features/home/component/button-add'
 import ItemCard from '@/features/home/component/item-card'
 import Header from '@/features/home/component/header'
-import ButtonAdd from '@/features/home/component/button-add'
-import { useGetItems } from '@/features/home/api/use-get-items'
 
 export default function Index() {
 	const [search, setSearch] = useState('')
@@ -19,7 +19,7 @@ export default function Index() {
 			<View style={styles.container}>
 				<Header value={search} setValue={setSearch} />
 				<FlatList
-					data={data?.data.data}
+					data={data}
 					keyExtractor={(item) => item.id}
 					renderItem={({ item }) => <ItemCard {...item} />}
 					style={styles.wrapper}

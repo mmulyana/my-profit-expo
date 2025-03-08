@@ -1,22 +1,31 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useForm } from 'react-hook-form'
+import { Link, useRouter } from 'expo-router'
 
 import PasswordInput from '@/features/auth/component/password-input'
 
 import LabeledInput from '@/shared/component/labeled-input'
 import { Color } from '@/shared/constants/color'
-import { Link } from 'expo-router'
+import { Payload } from '@/features/auth/types'
+import { useLogin } from '@/features/auth/hook/use-login'
 
 export default function RegisterScreen() {
-	const { control, handleSubmit } = useForm({
+	const router = useRouter()
+
+	const { mutate } = useLogin()
+	const { control, handleSubmit } = useForm<Payload>({
 		defaultValues: {
 			email: '',
 			password: '',
 		},
 	})
 
-	const submit = (data: any) => {
-		console.log(data)
+	const submit = (data: Payload) => {
+		mutate(data, {
+			onSuccess: () => {
+				router.push('/')
+			},
+		})
 	}
 
 	return (
@@ -40,9 +49,9 @@ export default function RegisterScreen() {
 					<PasswordInput control={control} name='password' />
 					<Pressable
 						style={styles.buttonSubmit}
-						onPress={() => handleSubmit(submit)}
+						onPress={() => handleSubmit(submit)()}
 					>
-						<Text style={{ color: '#FFF', fontWeight: 500 }}>Masuk</Text>
+						<Text style={{ color: '#FFF', fontWeight: 500 }}>Masuk A</Text>
 					</Pressable>
 				</View>
 			</View>

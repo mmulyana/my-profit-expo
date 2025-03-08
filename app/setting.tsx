@@ -9,7 +9,6 @@ import {
 } from 'react-native'
 
 import AuthCard from '@/features/setting/component/auth-card'
-
 import DetailHeader from '@/shared/component/detail-header'
 import { Color } from '@/shared/constants/color'
 

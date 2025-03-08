@@ -1,22 +1,32 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useForm } from 'react-hook-form'
-
-import PasswordInput from '@/features/auth/component/password-input'
+import { Link, useRouter } from 'expo-router'
 
 import LabeledInput from '@/shared/component/labeled-input'
 import { Color } from '@/shared/constants/color'
-import { Link } from 'expo-router'
+
+import PasswordInput from '@/features/auth/component/password-input'
+import { useRegister } from '@/features/auth/hook/use-register'
+import { Payload } from '@/features/auth/types'
 
 export default function RegisterScreen() {
-	const { control, handleSubmit } = useForm({
+	const router = useRouter()
+
+	const { mutate } = useRegister()
+	const { control, handleSubmit } = useForm<Payload>({
 		defaultValues: {
 			email: '',
 			password: '',
 		},
 	})
 
-	const submit = (data: any) => {
-		console.log(data)
+	const submit = (data: Payload) => {
+		mutate(data, {
+			onSuccess: () => {
+				Alert.alert('Success')
+				router.push('/')
+			},
+		})
 	}
 
 	return (
@@ -30,7 +40,7 @@ export default function RegisterScreen() {
 					<Text style={styles.title}>Daftar</Text>
 					<Text style={styles.subtitle}>Daftarkan akun anda disini</Text>
 				</View>
-				<View style={{ marginTop: 24 }}>
+				<View style={{ marginTop: 24, gap: 8 }}>
 					<LabeledInput
 						label='Email'
 						control={control}
@@ -40,7 +50,7 @@ export default function RegisterScreen() {
 					<PasswordInput control={control} name='password' />
 					<Pressable
 						style={styles.buttonSubmit}
-						onPress={() => handleSubmit(submit)}
+						onPress={() => handleSubmit(submit)()}
 					>
 						<Text style={{ color: '#FFF', fontWeight: 500 }}>Daftar</Text>
 					</Pressable>

@@ -2,12 +2,13 @@ import { Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'expo-router'
 
-import { useCreateItem } from '@/features/home/api/use-create-item'
+import { useCreateItem } from '@/features/home/hook/use-create-item'
 
 import ImageUploader from '@/shared/component/image-uploader'
 import DetailHeader from '@/shared/component/detail-header'
 import LabeledInput from '@/shared/component/labeled-input'
 import { Color } from '@/shared/constants/color'
+
 // import { zodResolver } from '@hookform/resolvers/zod'
 // import { z } from 'zod'
 
