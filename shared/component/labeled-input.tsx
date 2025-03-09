@@ -1,5 +1,4 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
-import { MaskedTextInput } from 'react-native-mask-text'
 import { Controller } from 'react-hook-form'
 import { Color } from '../constants/color'
 
@@ -73,16 +72,16 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 		width: '100%',
 		backgroundColor: '#FFF',
-		height: 40
+		height: 40,
 	},
 	inputFocused: {
 		borderColor: Color.Primary,
-		borderWidth: 2, // Lebar border saat focus
-		shadowColor: 'rgba(255, 0, 0, 0.3)', // Shadow merah
+		borderWidth: 2,
+		shadowColor: 'rgba(255, 0, 0, 0.3)',
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 1,
 		shadowRadius: 4,
-		elevation: 5, // Untuk Android
+		elevation: 5,
 	},
 	error: { color: 'red', marginTop: 5 },
 })
