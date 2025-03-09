@@ -8,7 +8,7 @@ export default function ButtonAdd() {
 	const router = useRouter()
 
 	const handleAdd = () => {
-		router.push('/create')
+		router.replace('/create')
 	}
 
 	return (

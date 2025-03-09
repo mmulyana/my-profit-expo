@@ -1,10 +1,4 @@
-import {
-	View,
-	TextInput,
-	Pressable,
-	StyleSheet,
-	TouchableOpacity,
-} from 'react-native'
+import { View, TextInput, Pressable, StyleSheet } from 'react-native'
 import { Settings } from 'lucide-react-native'
 
 import { Color } from '@/shared/constants/color'
@@ -29,7 +23,7 @@ export default function Header({ value, setValue }: Props) {
 				</View>
 				<Pressable
 					style={styles.button}
-					onPress={() => router.push('/setting')}
+					onPress={() => router.replace('/setting')}
 				>
 					<Settings size={20} color='white' />
 				</Pressable>

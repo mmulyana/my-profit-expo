@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { StorageKeys } from '../constants/storage-key'
 
 interface ApiErrorResponse {
 	message: string
@@ -51,7 +52,7 @@ export class HttpClient {
 			}
 
 			if (options.auth) {
-				const token = await AsyncStorage.getItem('token')
+				const token = await AsyncStorage.getItem(StorageKeys.Token)
 				if (token) {
 					headers['Authorization'] = `Bearer ${token}`
 				}
@@ -72,7 +73,7 @@ export class HttpClient {
 				}
 
 				if (response.status === 401) {
-					await AsyncStorage.removeItem('token')
+					await AsyncStorage.removeItem(StorageKeys.Token)
 				}
 
 				throw new ApiError(

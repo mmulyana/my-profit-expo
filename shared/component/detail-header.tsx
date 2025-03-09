@@ -22,7 +22,7 @@ export default function DetailHeader({ path, title }: Props) {
 			}}
 		>
 			<TouchableOpacity
-				onPress={() => router.push(path as any)}
+				onPress={() => router.replace(path as any)}
 				style={{ flexDirection: 'row', gap: 8 }}
 			>
 				<ChevronLeft size={24} color={Color.Neutral} />
