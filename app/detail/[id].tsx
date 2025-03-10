@@ -2,7 +2,15 @@ import { useGetItem } from '@/features/home/hook/use-get-item'
 import DetailHeader from '@/shared/component/detail-header'
 import { Color } from '@/shared/constants/color'
 import { Link, useLocalSearchParams } from 'expo-router'
-import { Image, StatusBar, StyleSheet, Text, View } from 'react-native'
+import {
+	Button,
+	Image,
+	Pressable,
+	StatusBar,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native'
 import { Image as ImageIcon } from 'lucide-react-native'
 import { BASE_URL } from '@/shared/constants/url'
 import Section from '@/shared/component/section'
@@ -24,15 +32,11 @@ export default function DetailScreen() {
 				/>
 				<View style={styles.wrapper}>
 					<Text style={styles.title}>{data?.name}</Text>
-					{data?.photo ? (
+					{data?.photo && (
 						<Image
 							source={{ uri: BASE_URL + data.photo }}
 							style={styles.image}
 						/>
-					) : (
-						<View style={styles.imagePlaceholder}>
-							<ImageIcon />
-						</View>
 					)}
 					<Section title='Detail'>
 						<View style={styles.detailWrapper}>
@@ -64,6 +68,11 @@ export default function DetailScreen() {
 						</View>
 					</Section>
 				</View>
+				<View style={styles.buttonWrapper}>
+					<Pressable style={styles.buttonDelete}>
+						<Text style={{ color: '#C94646', fontSize: 16 }}>hapus</Text>
+					</Pressable>
+				</View>
 			</View>
 			<StatusBar backgroundColor='transparent' />
 		</>
@@ -71,9 +80,22 @@ export default function DetailScreen() {
 }
 
 const styles = StyleSheet.create({
+	buttonWrapper: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		marginBottom: 14,
+	},
+	buttonDelete: {
+		backgroundColor: 'rgba(201, 70, 70, 0.3)',
+		paddingVertical: 14,
+		paddingHorizontal: 48,
+		borderRadius: 8,
+	},
 	container: {
 		backgroundColor: Color.Background,
 		flex: 1,
+		justifyContent: 'space-between',
+		flexDirection: 'column',
 	},
 	wrapper: {
 		padding: 16,

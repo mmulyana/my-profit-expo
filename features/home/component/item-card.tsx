@@ -1,10 +1,10 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { Image as ImageIcon } from 'lucide-react-native'
+import { useRouter } from 'expo-router'
 
 import { BASE_URL } from '@/shared/constants/url'
 import { Color } from '@/shared/constants/color'
 import { Item } from '@/shared/types'
-import { useRouter } from 'expo-router'
 
 export default function ItemCard(props: Item) {
 	const router = useRouter()
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 		borderColor: Color.Border,
 		borderWidth: 1,
 		borderRadius: 8,
-		padding: 16,
+		padding: 8,
 		rowGap: 8,
 		backgroundColor: '#FFF',
 		flexDirection: 'row',
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
 	},
 	infoTitle: {
 		color: Color.Neutral,
-		fontSize: 16,
+		fontSize: 18,
+		fontWeight: 500,
 	},
 	infoLabel: {
 		color: Color.Neutral,

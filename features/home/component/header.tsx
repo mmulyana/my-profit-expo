@@ -23,7 +23,7 @@ export default function Header({ value, setValue }: Props) {
 				</View>
 				<Pressable
 					style={styles.button}
-					onPress={() => router.replace('/setting')}
+					onPress={() => router.push('/setting')}
 				>
 					<Settings size={20} color='white' />
 				</Pressable>

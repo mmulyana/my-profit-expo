@@ -68,7 +68,7 @@ export class HttpClient {
 				body = data ? JSON.stringify(data) : undefined
 			}
 
-			console.log('__URL__', this.baseUrl + url)
+			// console.log('__URL__', this.baseUrl + url)
 
 			const response = await fetch(this.baseUrl + url + queryParams, {
 				method,
@@ -77,8 +77,8 @@ export class HttpClient {
 			})
 
 			const responseData = await response.json()
-			console.log('___RESPONSE STATUS__', response.status)
-			console.log('___RESULT__', responseData)
+			// console.log('___RESPONSE STATUS__', response.status)
+			// console.log('___RESULT__', responseData)
 
 			if (!response.ok) {
 				console.error(

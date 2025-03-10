@@ -7,3 +7,11 @@ export type Item = {
 	createdAt: string
 	photo?: string | null
 }
+
+export type Profile = {
+	id: number | null
+	email: string
+	i18n: string
+	currency: string
+	theme: string
+}

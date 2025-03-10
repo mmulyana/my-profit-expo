@@ -1,68 +1,64 @@
-import { ChevronRight, DollarSign, Globe, Moon } from 'lucide-react-native'
-import { StatusBar, StyleSheet, Switch, Text, View } from 'react-native'
+import { Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { useRecoilValue } from 'recoil'
 import React from 'react'
 
-import SettingItem from '@/features/setting/component/setting-item'
+import PreferenceMenu from '@/features/setting/component/preference-menu'
 import AuthCard from '@/features/setting/component/auth-card'
 
 import DetailHeader from '@/shared/component/detail-header'
-import Section from '@/shared/component/section'
+import { profileState } from '@/shared/store/profile'
 import { Color } from '@/shared/constants/color'
+import Section from '@/shared/component/section'
+import AuthMenu from '@/features/setting/component/auth-menu'
+import SettingItem from '@/features/setting/component/setting-item'
+import { LogOut, Mail, User } from 'lucide-react-native'
 
 export default function SettingScreen() {
-	const handleLanguagePress = () => {
-		console.log('Language pressed')
-	}
-
-	const handleCurrencyPress = () => {
-		console.log('Currency pressed')
-	}
+	const profile = useRecoilValue(profileState)
 
 	return (
 		<>
 			<View style={styles.container}>
-				<DetailHeader path='/' />
+				<DetailHeader
+					path='/'
+					right={
+						<Pressable>
+							<Text style={{ color: '#C94646' }}>Keluar</Text>
+						</Pressable>
+					}
+				/>
 				<View style={styles.content}>
 					<View style={styles.wrapper}>
 						<Text style={styles.title}>Pengaturan</Text>
 						<Section title='Akun'>
-							<AuthCard />
+							{/* <AuthCard /> */}
+							{profile ? (
+								<View style={styles.linkWrapper}>
+									<SettingItem
+										title='Email'
+										icon={
+											<Mail size={24} color={Color.Neutral} opacity={0.5} />
+										}
+										rightComponent={
+											<Text style={{ color: Color.Neutral }}>
+												{profile.email}
+											</Text>
+										}
+									/>
+									<SettingItem
+										title='Hapus akun'
+										icon={
+											<LogOut size={24} color={Color.Neutral} opacity={0.5} />
+										}
+										style={{ borderBottomWidth: 0 }}
+									/>
+								</View>
+							) : (
+								<AuthCard />
+							)}
 						</Section>
 						<Section title='Preferensi'>
-							<View style={styles.linkWrapper}>
-								<SettingItem
-									icon={<Globe size={24} color={Color.Neutral} opacity={0.5} />}
-									title='Bahasa'
-									onPress={handleLanguagePress}
-									rightComponent={
-										<ChevronRight
-											size={24}
-											color={Color.Neutral}
-											opacity={0.5}
-										/>
-									}
-								/>
-								<SettingItem
-									icon={<Moon size={24} color={Color.Neutral} opacity={0.5} />}
-									title='Mode Gelap'
-									rightComponent={<Switch value={false} />}
-								/>
-								<SettingItem
-									icon={
-										<DollarSign size={24} color={Color.Neutral} opacity={0.5} />
-									}
-									title='Mata Uang'
-									onPress={handleCurrencyPress}
-									rightComponent={
-										<ChevronRight
-											size={24}
-											color={Color.Neutral}
-											opacity={0.5}
-										/>
-									}
-									style={{ borderBottomWidth: 0 }}
-								/>
-							</View>
+							<PreferenceMenu />
 						</Section>
 					</View>
 				</View>
@@ -85,7 +81,7 @@ const styles = StyleSheet.create({
 	wrapper: {
 		padding: 16,
 		flexDirection: 'column',
-		justifyContent: 'space-between',
+		gap: 24,
 		flex: 1,
 	},
 	title: {

@@ -26,7 +26,7 @@ export default function SettingItem({
 		<Pressable onPress={onPress} style={[styles.linkItemWrapper, style]}>
 			<View style={styles.linkItem}>
 				{icon}
-				<Text>{title}</Text>
+				<Text style={{ color: Color.Neutral }}>{title}</Text>
 			</View>
 			{rightComponent}
 		</Pressable>
