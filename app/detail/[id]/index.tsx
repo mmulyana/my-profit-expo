@@ -1,9 +1,4 @@
-import { useGetItem } from '@/features/home/hook/use-get-item'
-import DetailHeader from '@/shared/component/detail-header'
-import { Color } from '@/shared/constants/color'
-import { Link, useLocalSearchParams } from 'expo-router'
 import {
-	Button,
 	Image,
 	Pressable,
 	StatusBar,
@@ -11,14 +6,24 @@ import {
 	Text,
 	View,
 } from 'react-native'
-import { Image as ImageIcon } from 'lucide-react-native'
-import { BASE_URL } from '@/shared/constants/url'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+
+import { useDeleteItem } from '@/features/detail/hook/use-delete-item'
+import { useGetItem } from '@/features/home/hook/use-get-item'
+
+import DetailHeader from '@/shared/component/detail-header'
+import CurrencyText from '@/shared/component/currency-text'
 import Section from '@/shared/component/section'
+import { Color } from '@/shared/constants/color'
+import { BASE_URL } from '@/shared/constants/url'
 
 export default function DetailScreen() {
+	const router = useRouter()
 	const { id } = useLocalSearchParams()
+	console.log('___ID___', id)
 
 	const { data } = useGetItem(id as string)
+	const { mutate: destroy } = useDeleteItem()
 
 	const diff = data ? data?.sellingPrice - data?.purchasePrice : 0
 	const profit = data ? diff * data?.quantity : 0
@@ -28,10 +33,16 @@ export default function DetailScreen() {
 			<View style={styles.container}>
 				<DetailHeader
 					path='/'
-					right={<Link href={`/detail/${id}/edit`}>Edit</Link>}
+					right={
+						<Pressable onPress={() => router.push(`/detail/${id}/edit`)}>
+							<Text>Edit</Text>
+						</Pressable>
+					}
 				/>
 				<View style={styles.wrapper}>
-					<Text style={styles.title}>{data?.name}</Text>
+					<Text style={styles.title}>
+						{data?.name} {id}
+					</Text>
 					{data?.photo && (
 						<Image
 							source={{ uri: BASE_URL + data.photo }}
@@ -42,11 +53,11 @@ export default function DetailScreen() {
 						<View style={styles.detailWrapper}>
 							<View style={styles.detailItemWrapper}>
 								<Text style={styles.detailLabel}>Harga beli</Text>
-								<Text style={styles.detailValue}>{data?.purchasePrice}</Text>
+								<CurrencyText amount={data?.purchasePrice || 0} />
 							</View>
 							<View style={styles.detailItemWrapper}>
 								<Text style={styles.detailLabel}>Harga jual</Text>
-								<Text style={styles.detailValue}>{data?.sellingPrice}</Text>
+								<CurrencyText amount={data?.sellingPrice || 0} />
 							</View>
 							<View style={styles.detailItemWrapper}>
 								<Text style={styles.detailLabel}>Kuantitas</Text>
@@ -55,21 +66,24 @@ export default function DetailScreen() {
 							<View style={styles.line} />
 							<View style={styles.detailItemWrapper}>
 								<Text style={styles.detailLabel}>Selisih</Text>
-								<Text style={{ ...styles.detailValue, fontWeight: 500 }}>
-									{diff}
-								</Text>
+								<CurrencyText amount={diff || 0} />
 							</View>
 							<View style={styles.detailItemWrapper}>
 								<Text style={styles.detailLabel}>Total</Text>
-								<Text style={{ ...styles.detailValue, fontWeight: 500 }}>
-									{profit}
-								</Text>
+								<CurrencyText amount={profit || 0} />
 							</View>
 						</View>
 					</Section>
 				</View>
 				<View style={styles.buttonWrapper}>
-					<Pressable style={styles.buttonDelete}>
+					<Pressable
+						style={styles.buttonDelete}
+						onPress={() => {
+							destroy(id as string, {
+								onSuccess: () => router.replace('/'),
+							})
+						}}
+					>
 						<Text style={{ color: '#C94646', fontSize: 16 }}>hapus</Text>
 					</Pressable>
 				</View>

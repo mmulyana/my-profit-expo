@@ -1,27 +1,25 @@
-import { View, StatusBar, StyleSheet } from 'react-native'
-import { useRouter } from 'expo-router'
+import { View, StatusBar, StyleSheet, Text } from 'react-native'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useRecoilValue } from 'recoil'
 
-import { useCreateItem } from '@/features/home/hook/use-create-item'
+import { useUpdateItem } from '@/features/detail/hook/use-update-item'
+import { useGetItem } from '@/features/home/hook/use-get-item'
+
 import DetailHeader from '@/shared/component/detail-header'
-import { Color } from '@/shared/constants/color'
-import { guestIdState } from '@/shared/store/guest'
 import { profileState } from '@/shared/store/profile'
 import ItemForm from '@/shared/component/item-form'
+import { guestIdState } from '@/shared/store/guest'
+import { Color } from '@/shared/constants/color'
 
-export default function CreateScreen() {
+export default function EditScreen() {
+	const { id } = useLocalSearchParams()
 	const router = useRouter()
+
 	const guest = useRecoilValue(guestIdState)
 	const profile = useRecoilValue(profileState)
-	const { mutate } = useCreateItem()
 
-	const defaultValues = {
-		name: '',
-		purchasePrice: undefined,
-		sellingPrice: undefined,
-		quantity: undefined,
-		image: null,
-	}
+	const { mutate } = useUpdateItem(id as string)
+	const { data } = useGetItem(id as string)
 
 	const onSubmit = (data: any) => {
 		const formData = new FormData()
@@ -42,18 +40,24 @@ export default function CreateScreen() {
 		}
 
 		mutate(formData, {
-			onSuccess: () => router.replace('/'),
+			onSuccess: () => router.replace(`/detail/${id}`),
 		})
 	}
 
-	const onCancel = () => router.push('/')
+	const onCancel = () => router.push(`/detail/${id}`)
 
 	return (
 		<>
 			<View style={styles.container}>
-				<DetailHeader path='/' />
+				<DetailHeader path={`/detail/${id}`} />
 				<ItemForm
-					defaultValues={defaultValues}
+					defaultValues={{
+						name: data?.name,
+						purchasePrice: data?.purchasePrice,
+						sellingPrice: data?.sellingPrice,
+						quantity: String(data?.quantity),
+						image: null,
+					}}
 					onSubmit={onSubmit}
 					onCancel={onCancel}
 				/>

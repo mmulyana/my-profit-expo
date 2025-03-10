@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 		width: '100%',
 		backgroundColor: '#FFF',
-		paddingVertical: 8
+		paddingVertical: 8,
 	},
 	inputFocused: {
 		borderColor: Color.Primary,

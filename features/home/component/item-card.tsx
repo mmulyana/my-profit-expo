@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router'
 import { BASE_URL } from '@/shared/constants/url'
 import { Color } from '@/shared/constants/color'
 import { Item } from '@/shared/types'
+import CurrencyText from '@/shared/component/currency-text'
 
 export default function ItemCard(props: Item) {
 	const router = useRouter()
@@ -30,7 +31,7 @@ export default function ItemCard(props: Item) {
 					<Text style={styles.infoTitle}>{props.name}</Text>
 					<View>
 						<Text style={styles.infoLabel}>Total profit</Text>
-						<Text style={styles.infoProfit}>{profit}</Text>
+						<CurrencyText amount={profit} />
 					</View>
 				</View>
 			</View>

@@ -46,7 +46,13 @@ export default function RootLayout() {
 						}}
 					/>
 					<Stack.Screen
-						name='detail/[id]'
+						name='detail/[id]/index'
+						options={{
+							headerShown: false,
+						}}
+					/>
+					<Stack.Screen
+						name='detail/[id]/edit'
 						options={{
 							headerShown: false,
 						}}
