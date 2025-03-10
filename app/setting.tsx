@@ -1,20 +1,26 @@
 import { Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 import React from 'react'
 
 import PreferenceMenu from '@/features/setting/component/preference-menu'
+import AuthMenu from '@/features/setting/component/auth-menu'
 import AuthCard from '@/features/setting/component/auth-card'
 
 import DetailHeader from '@/shared/component/detail-header'
-import { profileState } from '@/shared/store/profile'
+import { profileAtom, profileState } from '@/shared/store/profile'
 import { Color } from '@/shared/constants/color'
 import Section from '@/shared/component/section'
-import AuthMenu from '@/features/setting/component/auth-menu'
-import SettingItem from '@/features/setting/component/setting-item'
-import { LogOut, Mail, User } from 'lucide-react-native'
+import { destroyToken } from '@/shared/utils/auth'
+import { getOrCreateGuestId } from '@/shared/utils/guestId'
 
 export default function SettingScreen() {
-	const profile = useRecoilValue(profileState)
+	const [profile, setProfile] = useRecoilState(profileAtom)
+
+	const onLogout = async () => {
+		setProfile({ id: null, email: '', currency: '', i18n: '', theme: '' })
+		await destroyToken()
+		await getOrCreateGuestId()
+	}
 
 	return (
 		<>
@@ -22,40 +28,18 @@ export default function SettingScreen() {
 				<DetailHeader
 					path='/'
 					right={
-						<Pressable>
-							<Text style={{ color: '#C94646' }}>Keluar</Text>
-						</Pressable>
+						profile.id && (
+							<Pressable onPress={onLogout}>
+								<Text style={{ color: '#C94646' }}>Keluar</Text>
+							</Pressable>
+						)
 					}
 				/>
 				<View style={styles.content}>
 					<View style={styles.wrapper}>
 						<Text style={styles.title}>Pengaturan</Text>
 						<Section title='Akun'>
-							{/* <AuthCard /> */}
-							{profile ? (
-								<View style={styles.linkWrapper}>
-									<SettingItem
-										title='Email'
-										icon={
-											<Mail size={24} color={Color.Neutral} opacity={0.5} />
-										}
-										rightComponent={
-											<Text style={{ color: Color.Neutral }}>
-												{profile.email}
-											</Text>
-										}
-									/>
-									<SettingItem
-										title='Hapus akun'
-										icon={
-											<LogOut size={24} color={Color.Neutral} opacity={0.5} />
-										}
-										style={{ borderBottomWidth: 0 }}
-									/>
-								</View>
-							) : (
-								<AuthCard />
-							)}
+							{profile.id ? <AuthMenu /> : <AuthCard />}
 						</Section>
 						<Section title='Preferensi'>
 							<PreferenceMenu />
@@ -88,14 +72,5 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		color: Color.Neutral,
 		fontWeight: '600',
-	},
-	linkWrapper: {
-		backgroundColor: '#FFF',
-		borderRadius: 8,
-		shadowColor: 'rgba(59, 58, 77, 0.10)',
-		shadowOffset: { width: 0, height: 4 },
-		shadowOpacity: 1,
-		shadowRadius: 12,
-		elevation: 4,
 	},
 })

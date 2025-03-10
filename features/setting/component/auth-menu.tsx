@@ -1,9 +1,11 @@
-import { LogOut, Mail, View } from 'lucide-react-native'
-import SettingItem from './setting-item'
+import { StyleSheet, Text, View } from 'react-native'
+import { LogOut, Mail } from 'lucide-react-native'
 import { useRecoilValue } from 'recoil'
+
 import { profileState } from '@/shared/store/profile'
-import { StyleSheet, Text } from 'react-native'
 import { Color } from '@/shared/constants/color'
+
+import SettingItem from './setting-item'
 
 export default function AuthMenu() {
 	const profile = useRecoilValue(profileState)
@@ -11,14 +13,16 @@ export default function AuthMenu() {
 	return (
 		<View style={styles.linkWrapper}>
 			<SettingItem
-				icon={<Mail size={24} color={Color.Neutral} opacity={0.5} />}
 				title='Email'
-				rightComponent={<Text>{profile.email}</Text>}
+				icon={<Mail size={24} color={Color.Icon} />}
+				rightComponent={
+					<Text style={{ color: Color.Neutral }}>{profile.email}</Text>
+				}
 			/>
 			<SettingItem
-				icon={<LogOut size={24} color={Color.Neutral} opacity={0.5} />}
-				title='Email'
-				rightComponent={<Text>{profile.email}</Text>}
+				title='Hapus akun'
+				icon={<LogOut size={24} color={Color.Icon} />}
+				style={{ borderBottomWidth: 0 }}
 			/>
 		</View>
 	)

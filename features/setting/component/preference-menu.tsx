@@ -20,7 +20,7 @@ export default function PreferenceMenu() {
 	return (
 		<View style={styles.linkWrapper}>
 			<SettingItem
-				icon={<Globe size={24} color={Color.Neutral} opacity={0.5} />}
+				icon={<Globe size={24} color={Color.Icon} />}
 				title='Bahasa'
 				onPress={handleLanguagePress}
 				rightComponent={
@@ -28,12 +28,12 @@ export default function PreferenceMenu() {
 				}
 			/>
 			<SettingItem
-				icon={<Moon size={24} color={Color.Neutral} opacity={0.5} />}
+				icon={<Moon size={24} color={Color.Icon} />}
 				title='Mode Gelap'
 				rightComponent={<Switch value={isDark} onValueChange={setDark} />}
 			/>
 			<SettingItem
-				icon={<DollarSign size={24} color={Color.Neutral} opacity={0.5} />}
+				icon={<DollarSign size={24} color={Color.Icon} />}
 				title='Mata Uang'
 				onPress={handleCurrencyPress}
 				rightComponent={

@@ -3,5 +3,6 @@ export const Color = {
 	Neutral: '#3B3A4D',
 	Border: '#D9D9D9',
 	Background: '#FAFAFA',
-	ImagePlaceholder: '#E6E6E6'
+	ImagePlaceholder: '#E6E6E6',
+	Icon: '#9C9CA5',
 }

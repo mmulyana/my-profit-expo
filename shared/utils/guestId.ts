@@ -15,6 +15,7 @@ export const getOrCreateGuestId = async () => {
 	}
 	return guestId
 }
+
 export const destroyGuestId = async () => {
 	await AsyncStorage.removeItem(StorageKeys.GuestId)
 }

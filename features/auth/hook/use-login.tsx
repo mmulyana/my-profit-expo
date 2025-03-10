@@ -4,6 +4,7 @@ import { Alert } from 'react-native'
 
 import { Payload, Response } from '../types'
 
+import { destroyGuestId } from '@/shared/utils/guestId'
 import { api } from '@/shared/lib/api'
 
 export const useLogin = () => {
@@ -15,6 +16,8 @@ export const useLogin = () => {
 			if (data.token) {
 				await AsyncStorage.setItem('token', data.token)
 			}
+			await destroyGuestId()
+			Alert.alert('Welcome back')
 		},
 		onError: (err) => {
 			Alert.alert(err.message)
