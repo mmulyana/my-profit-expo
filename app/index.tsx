@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { FlatList, StatusBar, StyleSheet, View } from 'react-native'
+import { Alert, FlatList, StatusBar, StyleSheet, View } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 
@@ -19,31 +19,46 @@ export default function Index() {
 	const [guest, setGuest] = useRecoilState(guestAtom)
 	const [profile, setProfile] = useRecoilState(profileAtom)
 	const [search, setSearch] = useState('')
+	// console.log('index:profile', profile)
+	// console.log('index:guest', guest)
 
-	const { data } = useGetItems({ name: search })
+	const { data } = useGetItems({ name: search, userId: profile.id || guest })
 	const { data: profileData } = useProfile()
 
 	useEffect(() => {
 		const checkGuest = async () => {
 			const token = await AsyncStorage.getItem(StorageKeys.Token)
 			const guestToken = await getOrCreateGuestId()
-			if (!guest && !token) {
+			
+			if (!guest && !token && !profile.id) {
 				setGuest(guestToken)
-			}
-
-			if (token) {
+			} else if (guest) {
 				setGuest('')
 				await destroyGuestId()
 			}
 		}
-
-		checkGuest()
-	}, [])
-
-	useEffect(() => {
-		if (profileData) {
-			setProfile(profileData)
+		
+		!guest && checkGuest()
+		
+		return () => {
+			if (guest) {
+				destroyGuestId()
+			}
 		}
+	}, [])
+	
+	useEffect(() => {
+		if (!profileData || profile.id) return
+		const checkProfile = async () => {
+			console.log('__DATA__', profileData)
+			const token = await AsyncStorage.getItem(StorageKeys.Token)
+			if (profileData && token && profile.id !== profileData.id) {
+				setProfile(profileData)
+			}
+			console.log(token as string)
+		}
+
+		checkProfile()
 	}, [profileData])
 
 	return (

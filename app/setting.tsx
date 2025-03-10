@@ -11,15 +11,18 @@ import { profileAtom, profileState } from '@/shared/store/profile'
 import { Color } from '@/shared/constants/color'
 import Section from '@/shared/component/section'
 import { destroyToken } from '@/shared/utils/auth'
-import { getOrCreateGuestId } from '@/shared/utils/guestId'
+import { destroyGuestId, getOrCreateGuestId } from '@/shared/utils/guestId'
+import { guestAtom } from '@/shared/store/guest'
 
 export default function SettingScreen() {
 	const [profile, setProfile] = useRecoilState(profileAtom)
+	const [guest, setGuest] = useRecoilState(guestAtom)
 
 	const onLogout = async () => {
-		setProfile({ id: null, email: '', currency: '', i18n: '', theme: '' })
 		await destroyToken()
-		await getOrCreateGuestId()
+		await destroyGuestId()
+		setProfile({ id: null, email: '', currency: '', i18n: '', theme: '' })
+		setGuest('')
 	}
 
 	return (

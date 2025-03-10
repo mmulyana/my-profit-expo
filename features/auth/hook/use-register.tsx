@@ -9,7 +9,9 @@ import { Payload, Response } from '../types'
 
 export const useRegister = () => {
 	return useMutation({
-		mutationFn: async (payload: Payload): Promise<Response> => {
+		mutationFn: async (
+			payload: Payload & { id: string }
+		): Promise<Response> => {
 			return await api.post('/auth/register', payload)
 		},
 		onSuccess: async (data) => {

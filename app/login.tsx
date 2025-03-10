@@ -51,7 +51,7 @@ export default function RegisterScreen() {
 						style={styles.buttonSubmit}
 						onPress={() => handleSubmit(submit)()}
 					>
-						<Text style={{ color: '#FFF', fontWeight: 500 }}>Masuk A</Text>
+						<Text style={{ color: '#FFF', fontWeight: 500 }}>Masuk</Text>
 					</Pressable>
 				</View>
 			</View>

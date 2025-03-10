@@ -1,8 +1,10 @@
 import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import { useForm } from 'react-hook-form'
 import { Link, useRouter } from 'expo-router'
+import { useForm } from 'react-hook-form'
+import { useRecoilValue } from 'recoil'
 
 import LabeledInput from '@/shared/component/labeled-input'
+import { guestIdState } from '@/shared/store/guest'
 import { Color } from '@/shared/constants/color'
 
 import PasswordInput from '@/features/auth/component/password-input'
@@ -11,6 +13,8 @@ import { Payload } from '@/features/auth/types'
 
 export default function RegisterScreen() {
 	const router = useRouter()
+	const guest = useRecoilValue(guestIdState)
+	console.log("register:guest", guest)
 
 	const { mutate } = useRegister()
 	const { control, handleSubmit } = useForm<Payload>({
@@ -21,10 +25,15 @@ export default function RegisterScreen() {
 	})
 
 	const submit = (data: Payload) => {
-		mutate(data, {
+		const payload: Payload & { id: string } = {
+			...data,
+			id: guest,
+		}
+		console.log('__payload__', payload)
+		mutate(payload, {
 			onSuccess: () => {
-				Alert.alert('Success')
-				router.push('/')
+				Alert.alert('Daftar berhasil')
+				router.replace('/')
 			},
 		})
 	}

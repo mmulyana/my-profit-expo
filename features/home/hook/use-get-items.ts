@@ -7,29 +7,27 @@ import { Keys } from '@/shared/constants/key'
 import { api } from '@/shared/lib/api'
 import { Item } from '@/shared/types'
 
-export const useGetItems = ({ name }: { name?: string }) => {
-	const isOnline = useOnlineStatus()
-
+export const useGetItems = ({
+	name,
+	userId,
+}: {
+	name?: string
+	userId?: string
+}) => {
 	return useQuery({
 		queryKey: [Keys.Items, name],
 		queryFn: async () => {
-			if (!isOnline) {
-				const cachedData = await AsyncStorage.getItem('items')
-				return cachedData ? JSON.parse(cachedData) : []
-			}
-
 			const params = {
 				...(name !== undefined && name !== '' ? { name } : {}),
+				...(userId !== undefined && userId !== '' ? { userId } : {}),
 			}
 
 			const response = await api.get<{ data: Item[] }>(API_ITEMS, {
 				params,
 			})
-			const items = response.data
-
-			await AsyncStorage.setItem('items', JSON.stringify(items))
-			return items
+			return response.data
 		},
 		initialData: [],
+		enabled: userId !== null && userId !== undefined && userId !== '',
 	})
 }

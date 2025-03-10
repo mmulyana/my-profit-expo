@@ -8,6 +8,9 @@ import ImageUploader from '@/shared/component/image-uploader'
 import DetailHeader from '@/shared/component/detail-header'
 import LabeledInput from '@/shared/component/labeled-input'
 import { Color } from '@/shared/constants/color'
+import { useRecoilValue } from 'recoil'
+import { guestIdState } from '@/shared/store/guest'
+import { profileState } from '@/shared/store/profile'
 
 // import { zodResolver } from '@hookform/resolvers/zod'
 // import { z } from 'zod'
@@ -22,6 +25,8 @@ import { Color } from '@/shared/constants/color'
 
 export default function CreateScreen() {
 	const router = useRouter()
+	const guest = useRecoilValue(guestIdState)
+	const profile = useRecoilValue(profileState)
 
 	const { mutate } = useCreateItem()
 	const { control, handleSubmit } = useForm({
@@ -40,6 +45,7 @@ export default function CreateScreen() {
 		formData.append('purchasePrice', data.purchasePrice)
 		formData.append('quantity', data.quantity)
 		formData.append('sellingPrice', data.sellingPrice)
+		formData.append('userId', profile.id || guest)
 
 		if (data.image) {
 			const imageUri = data.image.uri || data.image

@@ -9,7 +9,7 @@ export type Item = {
 }
 
 export type Profile = {
-	id: number | null
+	id: string | null
 	email: string
 	i18n: string
 	currency: string
