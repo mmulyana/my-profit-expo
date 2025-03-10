@@ -51,10 +51,11 @@ export default function CreateScreen() {
 				type: `image/${fileType}`,
 			} as any)
 		}
+		console.log('__DATA__', data)
 
 		mutate(formData, {
 			onSuccess: () => {
-				router.push('/')
+				router.replace('/')
 			},
 		})
 	}

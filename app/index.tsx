@@ -1,7 +1,9 @@
 import { Alert, FlatList, StatusBar, StyleSheet, View } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useEffect, useState } from 'react'
+import { useRecoilState } from 'recoil'
 
+import { getOrCreateGuestId } from '@/shared/utils/generate-token'
+import { guestAtom } from '@/shared/store/guest'
 import { Color } from '@/shared/constants/color'
 
 import { useGetItems } from '@/features/home/hook/use-get-items'
@@ -10,9 +12,22 @@ import ItemCard from '@/features/home/component/item-card'
 import Header from '@/features/home/component/header'
 
 export default function Index() {
+	const [guest, setGuest] = useRecoilState(guestAtom)
 	const [search, setSearch] = useState('')
 
-	const { data } = useGetItems()
+	const { data } = useGetItems({ name: search })
+	console.log('__DATA__', data)
+
+	useEffect(() => {
+		const checkGuest = async () => {
+			const guestToken = await getOrCreateGuestId()
+			if (guest === '') {
+				setGuest(guestToken)
+			}
+		}
+
+		checkGuest()
+	}, [])
 
 	return (
 		<>

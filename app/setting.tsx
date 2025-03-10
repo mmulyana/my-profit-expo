@@ -4,9 +4,9 @@ import React from 'react'
 
 import SettingItem from '@/features/setting/component/setting-item'
 import AuthCard from '@/features/setting/component/auth-card'
-import Section from '@/features/setting/component/section'
 
 import DetailHeader from '@/shared/component/detail-header'
+import Section from '@/shared/component/section'
 import { Color } from '@/shared/constants/color'
 
 export default function SettingScreen() {

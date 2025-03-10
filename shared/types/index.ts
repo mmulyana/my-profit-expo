@@ -1,8 +1,9 @@
 export type Item = {
-    id: string
+	id: string
 	name: string
 	sellingPrice: number
 	purchasePrice: number
 	quantity: number
 	createdAt: string
+	photo?: string | null
 }

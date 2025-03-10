@@ -7,8 +7,9 @@ import { Color } from '../constants/color'
 type Props = {
 	path: string
 	title?: string
+	right?: React.ReactNode
 }
-export default function DetailHeader({ path, title }: Props) {
+export default function DetailHeader({ path, title, right }: Props) {
 	const router = useRouter()
 
 	return (
@@ -16,6 +17,7 @@ export default function DetailHeader({ path, title }: Props) {
 			style={{
 				flexDirection: 'row',
 				alignItems: 'center',
+				justifyContent: 'space-between',
 				paddingHorizontal: 16,
 				paddingVertical: 16,
 				height: 56,
@@ -35,6 +37,7 @@ export default function DetailHeader({ path, title }: Props) {
 					{title || 'Kembali'}
 				</Text>
 			</TouchableOpacity>
+			{right}
 		</View>
 	)
 }

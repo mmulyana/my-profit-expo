@@ -1,39 +1,40 @@
-import { StyleSheet, Text, View } from 'react-native'
-import { format } from 'date-fns'
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Image as ImageIcon } from 'lucide-react-native'
 
+import { BASE_URL } from '@/shared/constants/url'
 import { Color } from '@/shared/constants/color'
 import { Item } from '@/shared/types'
+import { useRouter } from 'expo-router'
 
 export default function ItemCard(props: Item) {
+	const router = useRouter()
+
+	const profit = (props.sellingPrice - props.purchasePrice) * props.quantity
+
 	return (
-		<View style={styles.container}>
-			<View style={styles.header}>
-				<Text style={styles.title}>{props.name}</Text>
-				<Text style={styles.date}>
-					{format(new Date(props.createdAt), 'dd/mm/yy')}
-				</Text>
-			</View>
-			<View style={styles.wrapper}>
-				<View style={styles.item}>
-					<Text style={styles.itemLabel}>Harga beli</Text>
-					<Text style={styles.itemValue}>{props.purchasePrice}</Text>
+		<Pressable onPress={() => router.push(`/detail/${props.id}`)}>
+			<View style={styles.container}>
+				<View style={styles.imageWrapper}>
+					{props.photo ? (
+						<Image
+							source={{ uri: BASE_URL + props.photo }}
+							style={styles.image}
+						/>
+					) : (
+						<View style={styles.imagePlaceholder}>
+							<ImageIcon color={Color.Neutral} />
+						</View>
+					)}
 				</View>
-				<View style={styles.item}>
-					<Text style={styles.itemLabel}>Harga jual</Text>
-					<Text style={styles.itemValue}>{props.sellingPrice}</Text>
-				</View>
-				<View style={styles.item}>
-					<Text style={styles.itemLabel}>Kuantitas</Text>
-					<Text style={styles.itemValue}>{props.quantity}</Text>
+				<View style={styles.infoWrapper}>
+					<Text style={styles.infoTitle}>{props.name}</Text>
+					<View>
+						<Text style={styles.infoLabel}>Total profit</Text>
+						<Text style={styles.infoProfit}>{profit}</Text>
+					</View>
 				</View>
 			</View>
-			<View style={styles.profitWrapper}>
-				<Text style={styles.profitLabel}>Profit</Text>
-				<Text style={styles.profitValue}>
-					{props.sellingPrice - props.purchasePrice}
-				</Text>
-			</View>
-		</View>
+		</Pressable>
 	)
 }
 
@@ -45,67 +46,45 @@ const styles = StyleSheet.create({
 		padding: 16,
 		rowGap: 8,
 		backgroundColor: '#FFF',
+		flexDirection: 'row',
+		gap: 16,
+		flex: 3,
 	},
-	header: {
-		display: 'flex',
+	imageWrapper: {
+		flex: 1,
+	},
+	image: {
+		width: 96,
+		height: 96,
+		borderRadius: 5,
+	},
+	imagePlaceholder: {
+		width: 96,
+		height: 96,
+		borderRadius: 5,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: Color.ImagePlaceholder,
+	},
+	infoWrapper: {
+		flex: 2,
 		flexDirection: 'column',
-		justifyContent: 'space-between',
+		justifyContent: 'center',
 		alignItems: 'flex-start',
-		marginBottom: 8
+		gap: 8,
 	},
-	title: {
+	infoTitle: {
+		color: Color.Neutral,
 		fontSize: 16,
-		fontWeight: 600,
-		color: Color.Neutral,
 	},
-	date: {
-		fontSize: 14,
-		color: Color.Neutral,
-		opacity: 0.5
-	},
-	wrapper: {
-		flexDirection: 'row',
-		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-	},
-	item: {
-		rowGap: 8,
-	},
-	itemLabel: {
-		fontSize: 12,
+	infoLabel: {
 		color: Color.Neutral,
 		opacity: 0.5,
+		fontSize: 14,
 	},
-	itemValue: {
+	infoProfit: {
+		color: Color.Neutral,
 		fontSize: 16,
-		color: Color.Neutral,
-	},
-	itemLink: {
-		color: Color.Primary,
-		fontWeight: 600,
-		fontSize: 14,
-		textAlign: 'left',
-	},
-	profitWrapper: {
-		paddingTop: 12,
-		borderTopColor: Color.Border,
-		borderStyle: 'dashed',
-		borderTopWidth: 1,
-		width: '100%',
-		flexDirection: 'row',
-		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-	},
-	profitLabel: {
-		fontSize: 14,
-		color: Color.Neutral,
-		opacity: 0.5,
-	},
-	profitValue: {
-		fontWeight: 600,
-		fontSize: 18,
-		color: Color.Neutral,
 	},
 })

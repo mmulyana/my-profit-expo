@@ -21,6 +21,7 @@ interface RequestOptions {
 	headers?: Record<string, string>
 	params?: Record<string, string>
 	auth?: boolean
+	isMultipart?: boolean
 }
 
 export class HttpClient {
@@ -58,15 +59,35 @@ export class HttpClient {
 				}
 			}
 
+			let body: BodyInit | undefined
+
+			if (options.isMultipart && data instanceof FormData) {
+				delete headers['Content-Type'] // Let the browser set the Content-Type with boundary
+				body = data
+			} else {
+				body = data ? JSON.stringify(data) : undefined
+			}
+
+			console.log('__URL__', this.baseUrl + url)
+
 			const response = await fetch(this.baseUrl + url + queryParams, {
 				method,
 				headers,
-				body: data ? JSON.stringify(data) : undefined,
+				body,
 			})
 
 			const responseData = await response.json()
+			console.log('___RESPONSE STATUS__', response.status)
+			console.log('___RESULT__', responseData)
 
 			if (!response.ok) {
+				console.error(
+					`Request Failed: ${method} ${this.baseUrl + url} | Status: ${
+						response.status
+					}`,
+					responseData
+				)
+
 				const errorResponse: ApiErrorResponse = {
 					message: responseData?.message || 'An error occurred',
 					...responseData,
@@ -85,6 +106,8 @@ export class HttpClient {
 
 			return responseData
 		} catch (error) {
+			console.error('Unexpected error occurred:', error)
+
 			if (error instanceof ApiError) {
 				throw error
 			}
