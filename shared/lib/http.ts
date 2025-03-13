@@ -81,12 +81,12 @@ export class HttpClient {
 			console.log('___RESULT__', responseData)
 
 			if (!response.ok) {
-				console.error(
-					`Request Failed: ${method} ${this.baseUrl + url} | Status: ${
-						response.status
-					}`,
-					responseData
-				)
+				// console.error(
+				// 	`Request Failed: ${method} ${this.baseUrl + url} | Status: ${
+				// 		response.status
+				// 	}`,
+				// 	responseData
+				// )
 
 				const errorResponse: ApiErrorResponse = {
 					message: responseData?.message || 'An error occurred',
@@ -106,7 +106,7 @@ export class HttpClient {
 
 			return responseData
 		} catch (error) {
-			console.error('Unexpected error occurred:', error)
+			// console.error('Unexpected error occurred:', error)
 
 			if (error instanceof ApiError) {
 				throw error

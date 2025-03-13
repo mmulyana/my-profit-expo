@@ -39,16 +39,13 @@ export default function DetailScreen() {
 					}
 				/>
 				<View style={styles.wrapper}>
-					<Text style={styles.title}>
-						{data?.name} {id}
-					</Text>
+					<Text style={styles.title}>{data?.name}</Text>
 					{data?.photo && (
 						<Image
 							source={{ uri: BASE_URL + data.photo }}
 							style={styles.image}
 						/>
 					)}
-					<Text>{(BASE_URL as string) + data?.photo}</Text>
 					<Section title='Detail'>
 						<View style={styles.detailWrapper}>
 							<View style={styles.detailItemWrapper}>

@@ -26,37 +26,31 @@ export default function Index() {
 	useEffect(() => {
 		const checkGuest = async () => {
 			const token = await AsyncStorage.getItem(StorageKeys.Token)
-			const guestToken = await getOrCreateGuestId()
-
 			if (!guest && !token && !profile.id) {
+				const guestToken = await getOrCreateGuestId()
 				setGuest(guestToken)
-			} else if (guest) {
+			}
+			if (guest && (token || profile.id)) {
 				setGuest('')
 				await destroyGuestId()
 			}
 		}
 
-		!guest && checkGuest()
-
-		return () => {
-			if (guest) {
-				destroyGuestId()
-			}
-		}
-	}, [])
+		checkGuest()
+	}, [guest, profile.id])
 
 	useEffect(() => {
-		if (!profileData || profile.id) return
+		if (!profileData) return
+
 		const checkProfile = async () => {
 			const token = await AsyncStorage.getItem(StorageKeys.Token)
-			if (profileData && token && profile.id !== profileData.id) {
-				// Alert.alert(token as string)
+			if (token && profileData.id !== profile.id) {
 				setProfile(profileData)
 			}
 		}
 
 		checkProfile()
-	}, [profileData])
+	}, [profileData, profile.id])
 
 	return (
 		<>
