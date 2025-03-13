@@ -56,6 +56,7 @@ export default function CreateScreen() {
 					defaultValues={defaultValues}
 					onSubmit={onSubmit}
 					onCancel={onCancel}
+					variant='ADD'
 				/>
 			</View>
 			<StatusBar backgroundColor='#FFF' />

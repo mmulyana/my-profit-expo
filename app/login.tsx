@@ -21,6 +21,7 @@ export default function RegisterScreen() {
 	})
 
 	const submit = (data: Payload) => {
+		console.log("__PAYLOAD__", data)
 		mutate(data, {
 			onSuccess: () => {
 				router.push('/')

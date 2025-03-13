@@ -8,14 +8,22 @@ type Props = {
 	defaultValues: any
 	onSubmit: (data: any) => void
 	onCancel: () => void
+	variant?: 'ADD' | 'EDIT'
 }
 
-export default function ItemForm({ defaultValues, onSubmit, onCancel }: Props) {
+export default function ItemForm({
+	defaultValues,
+	onSubmit,
+	onCancel,
+	variant,
+}: Props) {
 	const { control, handleSubmit } = useForm({ defaultValues })
 	return (
 		<View style={styles.wrapper}>
 			<View style={{ gap: 8 }}>
-				<Text style={styles.title}>Form Item</Text>
+				<Text style={styles.title}>
+					{variant === 'ADD' ? 'Tambah' : 'Edit '}
+				</Text>
 				<LabeledInput
 					label='Nama'
 					control={control}

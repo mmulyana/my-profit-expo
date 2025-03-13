@@ -60,6 +60,7 @@ export default function EditScreen() {
 					}}
 					onSubmit={onSubmit}
 					onCancel={onCancel}
+					variant='EDIT'
 				/>
 			</View>
 			<StatusBar backgroundColor='#FFF' />

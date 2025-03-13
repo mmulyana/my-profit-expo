@@ -20,7 +20,6 @@ import { BASE_URL } from '@/shared/constants/url'
 export default function DetailScreen() {
 	const router = useRouter()
 	const { id } = useLocalSearchParams()
-	console.log('___ID___', id)
 
 	const { data } = useGetItem(id as string)
 	const { mutate: destroy } = useDeleteItem()
@@ -49,6 +48,7 @@ export default function DetailScreen() {
 							style={styles.image}
 						/>
 					)}
+					<Text>{(BASE_URL as string) + data?.photo}</Text>
 					<Section title='Detail'>
 						<View style={styles.detailWrapper}>
 							<View style={styles.detailItemWrapper}>
